@@ -5,10 +5,11 @@ import { ChatModule } from './chat/chat.module';
 import { UsersModule } from './users/users.module';
 import { LoginModule } from './login/login.module';
 import { ChatwsGateway } from './chatws/chatws.gateway';
+import { UnanManaguaGateway } from './sockets/unan-managua/unan-managua.gateway';
 
 @Module({
   imports: [ChatModule, UsersModule, LoginModule],
   controllers: [AppController],
-  providers: [AppService, ChatwsGateway],
+  providers: [AppService, ChatwsGateway, UnanManaguaGateway],
 })
 export class AppModule {}

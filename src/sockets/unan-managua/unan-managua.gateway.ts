@@ -1,11 +1,11 @@
-import { WebSocketGateway, WebSocketServer, SubscribeMessage, MessageBody } from '@nestjs/websockets';
+import { WebSocketGateway, WebSocketServer, SubscribeMessage, MessageBody, ConnectedSocket } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import * as fs from 'fs';
 import * as path from 'path';
 import ollama from 'ollama';
 
 @WebSocketGateway({
-  namespace: '/ollama',
+  namespace: '/socket-unan-managua',
   cors: {
     origin: 'http://localhost:4200', // Permitir solicitudes desde esta URL
     methods: ['GET', 'POST'],
@@ -13,10 +13,11 @@ import ollama from 'ollama';
     credentials: true,
   },
 })
-
-export class ChatwsGateway {
+export class UnanManaguaGateway {
   @WebSocketServer()
   server: Server;
+
+  private chatUsers!: any[];
 
   private messageHistory = [];
   private info: any[];
@@ -34,26 +35,39 @@ export class ChatwsGateway {
   }
 
   @SubscribeMessage('chat')
-  async handleChatMessage(@MessageBody() data: string, client: Socket): Promise<void> {
+  async handleChatMessage(@MessageBody() data: string, @ConnectedSocket() client: Socket): Promise<void> {
+
+
+
+
     console.log('Mensaje del usuario:', data);
+    console.log('id Socket  usuario:', client);
     const userMessage = data;
 
     // Agrega el mensaje del usuario al historial
-    this.messageHistory.push({ role: 'user', content: userMessage });
+    // this.messageHistory.push({ role: 'user', content: userMessage });
 
     // Solo incluye el prompt en el primer mensaje
-    if (this.messageHistory.length === 1) {
-      const prompt = `Tú eres ZyxBot, respondes en español y eres un asistente virtual especializado en proporcionar información sobre la Universidad de la UNAN-Managua...`;
+    const prompt = `Tú eres ZyxBot, respondes en español y eres un asistente virtual especializado en proporcionar información sobre la Universidad de la UNAN-Managua...`;
+    // if (this.messageHistory.length === 1) {
+    //   const prompt = `Tú eres ZyxBot, respondes en español y eres un asistente virtual especializado en proporcionar información sobre la Universidad de la UNAN-Managua...`;
 
-      // Agrega el prompt al historial
-      this.messageHistory.unshift({ role: 'system', content: prompt });
-    }
+    //   // Agrega el prompt al historial
+    //   this.messageHistory.unshift({ role: 'system', content: prompt });
+    // }
 
     try {
       // Llama a Ollama con el historial de mensajes
       const response = await ollama.chat({
         model: "llama3.1",
-        messages: this.messageHistory,
+        messages: [{
+          role: 'system',
+          content: prompt
+        },
+        {
+          role: 'user',
+          content: userMessage
+        }],
         stream: true
       });
 
