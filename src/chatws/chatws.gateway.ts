@@ -7,7 +7,7 @@ import ollama from 'ollama';
   cors: {
     origin: 'http://localhost:4200', // Permitir solicitudes desde esta URL
     methods: ['GET', 'POST'],
-    allowedHeaders: ['my-custom-header'],
+      
     credentials: true,
   },
  })
@@ -21,7 +21,7 @@ export class ChatwsGateway {
 
   constructor() {
     // Lee el archivo una vez cuando el servidor inicia
-    this.info = fs.readFileSync('Matricula2024.txt', 'utf8');
+    this.info = fs.readFileSync('./documents/Matricula2024.txt', 'utf8');
   }
 
   @SubscribeMessage('chat')
@@ -43,7 +43,7 @@ export class ChatwsGateway {
     try {
       // Llama a Ollama con el historial de mensajes
       const response = await ollama.chat({
-        model: "llama2",
+        model: "llama3.1",
         messages: this.messageHistory,
         stream: true
       });
