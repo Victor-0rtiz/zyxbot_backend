@@ -4,8 +4,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import ollama from 'ollama';
 
+
 @WebSocketGateway({
-  namespace: '/socket-unan-managua',
+  namespace: '/socket-cur-mat',
   cors: {
     origin: 'http://localhost:4200', // Permitir solicitudes desde esta URL
     methods: ['GET', 'POST'],
@@ -13,7 +14,7 @@ import ollama from 'ollama';
     credentials: true,
   },
 })
-export class UnanManaguaGateway {
+export class CurMatGateway {
   @WebSocketServer()
   server: Server; // * Servidor WebSocket
 
@@ -104,4 +105,3 @@ ${this.info}`;
     console.log('Usuario desconectado'); // ! Indicar cuando un usuario se desconecta
   }
 }
-
