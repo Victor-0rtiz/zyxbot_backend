@@ -21,11 +21,14 @@
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^10.4.1",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.4.1",
     "@nestjs/platform-socket.io": "^10.4.4",
     "@nestjs/websockets": "^10.4.4",
+    "@types/mssql": "^9.1.5",
+    "mssql": "^11.0.1",
     "ollama": "^0.5.9",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"

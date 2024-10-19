@@ -8,9 +8,11 @@ import { ChatwsGateway } from './chatws/chatws.gateway';
 import { UnanManaguaGateway } from './sockets/unan-managua/unan-managua.gateway';
 import { JwtService } from './utils/jwt/jwt.service';
 import { CasimiroGateway } from './sockets/casimiro/casimiro.gateway';
+import { MapaInteractivoModule } from './mapa-interactivo/mapa-interactivo.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [ChatModule, UsersModule, LoginModule],
+  imports: [ ConfigModule.forRoot(), ChatModule, UsersModule, LoginModule, MapaInteractivoModule],
   controllers: [AppController],
   providers: [AppService, ChatwsGateway, UnanManaguaGateway, JwtService, CasimiroGateway],
 })
